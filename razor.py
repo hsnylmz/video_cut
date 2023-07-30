@@ -13,7 +13,7 @@ from ttkbootstrap.constants import *
 from tkinter import filedialog, Tk, Button
 
 window = ttk.Window(title="Razor by hsnylmz", themename="litera")
-window.geometry("520x280")
+window.geometry("600x280")
 window.resizable(True,True)
 
 try:
@@ -25,6 +25,7 @@ except:
 source_video_path=""
 target_video_file=""
 file_ext=""
+
 videos_folder = os.path.join(os.path.expanduser("~"), "Videos")
 yolumuz=os.getcwd()
 
@@ -70,8 +71,10 @@ def cevir():
     target_video_file = 'output_' + source_file_name
     print('Target File Name : '+target_video_file)
 
-    secilen_video_label.config(text=f"Seçilen Video: {source_file_name}", font=("Arial", 14))
-    secilen_video_frame_rate_label.config(text=f"Frame Rate : {fps}", font=("Arial", 14))
+    secilen_video_label.config(text=f"{source_file_name}", font=("Arial", 14),bootstyle="danger")
+    secilen_video_frame_rate_label.config(text=f"{fps}", font=("Arial", 14), bootstyle="danger")
+    target_video_file_isim.config(text=f"{target_video_file}", font=("Arial", 14), bootstyle="danger"),
+    dest_file_path_isim.config(text="")
 
     olarak_kaydet_button.config(state=NORMAL)
     #convert_button.config(state=DISABLED)
@@ -90,7 +93,9 @@ def farkli_kaydet():
     print('tc2 : '+tc_2)
     
     dest_file_path = filedialog.askdirectory()
-    print('dest_file_path : '+dest_file_path)
+    print('dest_file_path : '+ dest_file_path)
+
+    dest_file_path_isim.config(text=f"{dest_file_path}", font=("Arial", 14), bootstyle="danger")
 
     
     convert_command='{}/ffmpeg.exe -ss {} -i "{}" -c copy -t {} "{}/{}"'.format(yolumuz, tc_1, source_video_path, tc_2, dest_file_path, target_video_file)
@@ -140,7 +145,7 @@ head_label_tc2 = ttk.Label(label_frame, text="TC DURATION")
 head_label_tc2.grid(row=0, column=2, padx=5, pady=5)
 
 
-convert_button = ttk.Button(label_frame, text="VİDEOYU SEÇİNİZ", command=cevir, width=15, bootstyle=SUCCESS)
+convert_button = ttk.Button(label_frame, text="VİDEOYU SEÇİNİZ", command=cevir, width=18, bootstyle=SUCCESS)
 #convert_button.pack(side='left', padx=5, pady=5)
 convert_button.grid(row=1, column=0, padx=5, pady=5)
 
@@ -157,17 +162,38 @@ text_box_tc_2.insert("1.0", "00:00:10.0")
 #text_box_tc_2.pack(side='left', padx=5, pady=5)
 text_box_tc_2.grid(row=1, column=2, padx=5, pady=5)
 
-olarak_kaydet_button = ttk.Button(label_frame, text="K A Y D E T", command=farkli_kaydet, width=15, bootstyle=SUCCESS)
+olarak_kaydet_button = ttk.Button(label_frame, text="K A Y D E T", command=farkli_kaydet, width=18, bootstyle=SUCCESS)
 olarak_kaydet_button.config(state=DISABLED)
 #olarak_kaydet_button.pack(side='left', padx=5, pady=5)
 olarak_kaydet_button.grid(row=1, column=3, padx=5, pady=5)
 
+secilen_video_label_sabit = ttk.Label(label_frame_2, text="Seçilen Dosya : ")
+secilen_video_label_sabit.config(font=("Arial", 14))
+secilen_video_label_sabit.place(x=5, y=5)
+
+secilen_video_frame_rate_label_sabit = ttk.Label(label_frame_2, text="Frame Rate : ")
+secilen_video_frame_rate_label_sabit.config(font=("Arial", 14))
+secilen_video_frame_rate_label_sabit.place(x=5, y=35)
+
+target_video_file_name = ttk.Label(label_frame_2, text="Kaydedilecek Dosya ismi : ")
+target_video_file_name.config(font=("Arial",14))
+target_video_file_name.place(x=5, y=65)
+
+dest_file_name_label = ttk.Label(label_frame_2, text="Kaydedilecek Dosya yolu : ")
+dest_file_name_label.config(font=("Arial",14))
+dest_file_name_label.place(x=5, y=95)
+
 secilen_video_label = ttk.Label(label_frame_2, text="")
-secilen_video_label.place(x=5, y=5)
+secilen_video_label.place(x=160, y=5)
 
 secilen_video_frame_rate_label = ttk.Label(label_frame_2, text="")
-secilen_video_frame_rate_label.place(x=5, y=35)
+secilen_video_frame_rate_label.place(x=160, y=35)
 
+target_video_file_isim=ttk.Label(label_frame_2, text="")
+target_video_file_isim.place(x=250,y=65)
+
+dest_file_path_isim = ttk.Label(label_frame_2, text="")
+dest_file_path_isim.place(x=250,y=95)
 
 
 window.mainloop()
